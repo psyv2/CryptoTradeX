@@ -38,9 +38,6 @@ const Header = (props) => {
               <li className="nav-item" style={{ listStyle: "none", marginLeft: "15px", fontSize: "1.3rem" }}>
                 <a style={{ color: "white" }} className="nav-link active" aria-current="page" href="/History">History</a>
               </li>
-              <li className="nav-item" style={{ listStyle: "none", marginLeft: "15px", fontSize: "1.3rem" }}>
-                <a style={{ color: "white" }} className="nav-link active" aria-current="page" href="/Contest">Global</a>
-              </li>
             </ul>
             </Nav>
             <Nav className="" >
