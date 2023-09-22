@@ -3,6 +3,7 @@ import { useSharedState } from '../../context/ContextProvider';
 import { Toast } from 'react-bootstrap';
 import { Selling_coin } from '../../Services/API';
 
+
 const MP = (props) => {
   const { Holdings, updateHoldings } = useSharedState();
   const { updateAvailableBalance, available_balance } = useSharedState();
@@ -87,9 +88,10 @@ const MP = (props) => {
               </div>
               <div className="col-4">
                 {/* <form action="/emailOnOff" method="post"> */}
-                <button type="submit" className="btn btn-secondary">
+                <button className='btn-notification'
+                  onSubmit={() => { sendMail() }}>
                   {/* {data.emailStatus} */}
-                  noti
+                  on
                 </button>
                 {/* </form> */}
               </div>

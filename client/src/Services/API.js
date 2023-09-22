@@ -1,6 +1,6 @@
-// const url = "http://localhost:8880"
+const url = "http://localhost:8880"
 // const url = "https://dummycryptobackend.onrender.com"
-const url = process.env.REACT_APP_BACKEND_URL
+// const url = process.env.REACT_APP_BACKEND_URL
 console.log("env = ", url)
 export const HomePageData = async () => {
     try {
