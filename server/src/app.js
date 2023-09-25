@@ -85,21 +85,7 @@ app.get("/", verifyToken, async (req, res) => {
         let market_cap_change_24h = 40;
         let bitcoin_dominance_percentage = 40;
         let volume_24h_usd = 40;
-        // const apiReq2 = await fetch(
-        //     `https://api.coinpaprika.com/v1/global`
-        // )
-        //     .then((res) => {
-        //         return res.json();
-        //     })
-        //     .then((data) => {
-        //         market_cap_usd = (((data.market_cap_usd) * 75) / 1000000000000).toFixed(2);
-        //         bitcoin_dominance_percentage = internationalNumberFormat.format(data.bitcoin_dominance_percentage);
-        //         volume_24h_usd = (((data.volume_24h_usd) * 75) / 1000000000000).toFixed(2);
-        //         market_cap_change_24h = data.market_cap_change_24h;
-        //     })
-        //     .catch((errr) => {
-        //         console.log('API Error' + errr);
-        //     });
+
 
         var userData = undefined;
         if (req.username && req.token != "expired") {
@@ -234,160 +220,7 @@ app.get("/", verifyToken, async (req, res) => {
 })
 
 
-const contest = require('./routes/contest');
-app.use('/contest', contest);
 
-// app.get("/contest", verifyToken, async (req, res) => {
-//     try {
-//         let apiData = [];
-//         const apiReq = await fetch(
-//             `https://api.coinpaprika.com/v1/tickers?quotes=INR`
-//         )
-//             .then((res) => {
-//                 return res.json();
-//             })
-//             .then((data) => {
-//                 for (let i = 0; i < 300; i++) {
-//                     let n = data[i].quotes.INR.price.toFixed(2);
-//                     let tempObj = {
-//                         id: `${data[i].id}`,
-//                         idx: i,
-//                         rank: `${data[i].rank}`,
-//                         symbol: `${data[i].symbol}`,
-//                         name: `${data[i].name}`,
-//                         currentPrice: `${n}`,
-//                         percent: `${data[i].quotes.INR.percent_change_24h}`,
-//                         coinImg: `https://static.coinpaprika.com/coin/${data[i].id}/logo.png?rev=10588339`
-//                     }
-//                     apiData.push(tempObj);
-//                 }
-//                 apidatas = apiData;
-//             })
-//             .catch((errr) => {
-//                 console.log('API Error' + errr);
-//             });
-
-//         const all_user_data = [];
-//         const all = await cryptoPortfolio.find({}, { username: 1, C_total_profit: 1, fname: 1, lname: 1 }).toArray(function (err, docs) {
-//             if (err) {
-//                 console.log('Error retrieving documents:', err);
-//                 return;
-//             }
-//             // Store the selected fields in the 'data' variable
-//             all_user_data = docs.map(doc => ({
-//                 username: doc.username,
-//                 C_total_profit: doc.C_total_profit,
-//                 name: doc.fname + " " + doc.lname
-//             }));
-//         })
-//         console.log("all = ",all_user_data)
-
-//         let market_cap_usd = 40;
-//         let market_cap_change_24h = 40;
-//         let bitcoin_dominance_percentage = 40;
-//         let volume_24h_usd = 40;
-//         // const apiReq2 = await fetch(
-//         //     `https://api.coinpaprika.com/v1/global`
-//         // )
-//         //     .then((res) => {
-//         //         return res.json();
-//         //     })
-//         //     .then((data) => {
-//         //         market_cap_usd = (((data.market_cap_usd) * 75) / 1000000000000).toFixed(2);
-//         //         bitcoin_dominance_percentage = internationalNumberFormat.format(data.bitcoin_dominance_percentage);
-//         //         volume_24h_usd = (((data.volume_24h_usd) * 75) / 1000000000000).toFixed(2);
-//         //         market_cap_change_24h = data.market_cap_change_24h;
-//         //     })
-//         //     .catch((errr) => {
-//         //         console.log('API Error' + errr);
-//         //     });
-
-//         var userData = undefined;
-//         if (req.username && req.token != "expired") {
-//             userData = await cryptoPortfolio.findOne({ username: req.username })
-//         }
-
-//         if (userData == undefined || !req.username || req.token == "expired") {
-//             console.log("In Contest :- User Not found/Expired");
-//             res.send({
-//                 token: "no",
-//                 all_user_data : all_user_data,
-//                 username: "--", //???????????????????????
-//                 total_profit: 0, //???????????????????????
-//                 marque_data: {
-//                     market_cap_usd: market_cap_usd,
-//                     market_cap_change_24h: market_cap_change_24h,
-//                     bitcoin_dominance_percentage: bitcoin_dominance_percentage,
-//                     volume_24h_usd: volume_24h_usd,
-//                 },
-//                 dashboard_data: {
-//                     username: "--",
-//                     available_balance: 10000,
-//                     total_profit: 0.00,
-//                     current_name: "--"
-//                 },
-//                 contest_data: {
-//                     contestHoldings: [],
-//                     C_myPortfolio_total_invested: 0,
-//                     C_myPortfolio_total_Current: 0,
-//                     C_myPortfolio_total_profit: 0
-//                 },
-//             })
-//         }
-//         else {
-//             let C_myPortfolio_total_invested = 0;
-//             let C_myPortfolio_total_Current = 0;
-//             let C_myPortfolio_total_profit = 0;
-//             let l = 300;
-//             if (apidatas.length < 300) l = apidatas.length
-//             for (let i = 0; i < l; i++) {
-//                 let n = apidatas[i].currentPrice;
-//                 for (let k = 0; k < userData.contestHolding.length; k++) {
-//                     if (userData.contestHolding[k].coin_symbol == apidatas[i].symbol) {
-//                         ccval1 = (n * userData.contestHolding[k].coin_number).toFixed(2);
-//                         userData.contestHolding[k].coin_current = ccval1;
-//                         userData.contestHolding[k].coin_profit = (ccval1 - userData.contestHolding[k].coin_invested_amount).toFixed(2);
-
-//                         C_myPortfolio_total_invested += userData.contestHolding[k].coin_invested_amount;
-//                         C_myPortfolio_total_Current += userData.contestHolding[k].coin_current;
-//                         C_myPortfolio_total_profit += userData.contestHolding[k].coin_profit;
-//                     }
-//                 }
-//             }
-
-//             cname = userData.fname + " " + userData.lname;
-//             res.send({
-//                 // apidata: apidatas,
-//                 all_user_data : all_user_data,
-//                 token: req.token,
-//                 username: req.username,
-//                 total_profit: userData.C_total_profit, //???????????????????????
-//                 contest_data: {
-//                     contestHoldings: userData.contestHolding,
-//                     C_myPortfolio_total_invested: C_myPortfolio_total_invested.toFixed(2),
-//                     C_myPortfolio_total_Current: C_myPortfolio_total_Current.toFixed(2),
-//                     C_myPortfolio_total_profit: C_myPortfolio_total_profit.toFixed(2),
-//                 },
-//                 dashboard_data: {
-//                     username: req.username,
-//                     available_balance: (userData.C_available_balance).toFixed(2),
-//                     total_profit: (userData.C_total_profit).toFixed(2),
-//                     current_name: cname
-//                 },
-//                 marquee: {
-//                     market_cap_usd: market_cap_usd,
-//                     market_cap_change_24h: market_cap_change_24h,
-//                     bitcoin_dominance_percentage: bitcoin_dominance_percentage,
-//                     volume_24h_usd: volume_24h_usd
-//                 }
-//             });
-//         }
-//     }
-//     catch (err) {
-//         res.send(err);
-//     }
-// })
-// app.use(proxy('http://localhost:3000'));
 
 const login = require('./routes/login');
 app.use('/login', login);
@@ -515,245 +348,132 @@ app.post("/emailOnOff", async (req, res) => {
 });
 
 
+async function dailyUpdateMail() {
+    try {
+        let reset = new Date();
+        reset.setHours(24, 0, 0, 0);
+        let t = reset.getTime() - Date.now();
 
-// async function updating() {
-//     try {
-//         var all = await cryptoPortfolio.find();
-//         var apdata;
+        setTimeout(async function () {
 
-//         const rrrr = await fetch(
-//             `https://api.coinpaprika.com/v1/tickers?quotes=INR`
-//         )
-//             .then((res) => {
-//                 return res.json();
-//             })
-//             .then((data) => {
-//                 apdata = data;
-//             })
-//             .catch((errr) => {
-//                 console.log('API Error' + errr);
-//             });
+            var all = await cryptoPortfolio.find();
 
-//         for (let j = 0; j < all.length; j++) {
-//             let C_myPortfolio_total_invested = 0;
-//             let C_myPortfolio_total_Current = 0;
-//             let C_myPortfolio_total_profit = 0;
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'dummycrypto2@gmail.com',
+                    pass: 'emegjafppuucwhhj'
+                }
+            });
 
-//             let myPortfolio_total_invested = 0;
-//             let myPortfolio_total_Current = 0;
-//             let myPortfolio_total_profit = 0;
+            for (let i = 0; i < all.length; i++) {
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'dummycrypto2@gmail.com',
+                        pass: 'emegjafppuucwhhj'
+                    }
+                });
 
-//             for (let i = 0; i < 300; i++) {
-//                 let n = apdata[i].quotes.INR.price.toFixed(2);
+                let userData = all[i];
 
-//                 for (let k = 0; k < userData.contestHolding.length; k++) {
-//                     if (userData.contestHolding[k].coin_symbol == data[i].symbol) {
-//                         ccval1 = (n * userData.contestHolding[k].coin_number).toFixed(2);
-//                         userData.contestHolding[k].coin_current = ccval1;
-//                         userData.contestHolding[k].coin_profit = (ccval1 - userData.contestHolding[k].coin_invested_amount).toFixed(2);
+                let str = ` 
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-//                         C_myPortfolio_total_invested += userData.contestHolding[k].coin_invested_amount;
-//                         C_myPortfolio_total_Current += userData.contestHolding[k].coin_current;
-//                         C_myPortfolio_total_profit += userData.contestHolding[k].coin_profit;
-//                     }
-//                 }
+                <h3 style="color:black;"> Dear <span style = "color: blue;">  ${userData.fname} ${userData.lname} </span>, Here is your portfolio </h3>
+                <table class="table" style="border: 2px solid #4da4de;">
+                <thead style="border: 1px solid #4da4de;">
+                  <tr>
+                    <th style="border: 1px solid #4da4de;" scope="col">Coin Name</th>
+                    <th style="border: 1px solid #4da4de;" scope="col">Invested Value</th>
+                    <th style="border: 1px solid #4da4de;" scope="col">Current Value</th>
+                    <th style="border: 1px solid #4da4de;" scope="col">Profit</th>
+                  </tr>
+                </thead>
+                <tbody>`;
 
-//                 for (let k = 0; k < userData.Holding.length; k++) {
-//                     if (userData.Holding[k].coin_symbol == data[i].symbol) {
-//                         ccval1 = (n * userData.Holding[k].coin_number).toFixed(2);
-//                         userData.Holding[k].coin_current = ccval1;
-//                         userData.Holding[k].coin_profit = (ccval1 - userData.Holding[k].coin_invested_amount).toFixed(2);
+                let ptp = 0;
+                for (let i = 0; i < userData.Holding.length; i++) {
+                    ptp += userData.Holding[i].coin_profit;
+                    if (userData.Holding[i].coin_profit < 0) {
+                        str += `
+                    <tr style="color: red;">
+                    <th style="border: 1px solid #4da4de;"> ${userData.Holding[i].coin_name}</th>
+                    <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_invested_amount}</th>
+                    <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_current}</th>
+                    <th style="border: 1px solid #4da4de;">${userData.Holding[i].coin_profit} Rs</th>
+                  </tr>
+                  `
+                    }
+                    else {
+                        str += `
+                    <tr style="color: green;">
+                    <th style="border: 1px solid #4da4de;"> ${userData.Holding[i].coin_name}</th>
+                    <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_invested_amount}</th>
+                    <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_current}</th>
+                    <th style="border: 1px solid #4da4de;">${userData.Holding[i].coin_profit} Rs</th>
+                  </tr>
+                  `
+                    }
+                }
 
-//                         myPortfolio_total_invested += userData.Holding[k].coin_invested_amount;
-//                         myPortfolio_total_Current += userData.Holding[k].coin_current;
-//                         myPortfolio_total_profit += userData.Holding[k].coin_profit;
-//                     }
-//                 }
+                if (ptp < 0) {
+                    str += `
+                <tr style="color: red;">
+                <th style="border: 1px solid #4da4de;">Final</th>
+                <th style="border: 1px solid #4da4de;">₹ ${userData.total_current_value}</th>
+                <th style="border: 1px solid #4da4de;">₹ ${userData.total_invested_value}</th>
+                <th style="border: 1px solid #4da4de;">₹${ptp.toFixed(2)} Rs</th>
 
-//             }
-
-//             const updating21 = await cryptoPortfolio.findOneAndUpdate({ username: all[j].username }, {
-//                 $set: {
-//                     contestHolding: all[j].contestHolding,
-//                     Holding: all[j].Holding
-//                 },
-//                 C_total_invested_value: (C_myPortfolio_total_invested).toFixed(2),
-//                 C_total_current_value: (C_myPortfolio_total_Current).toFixed(2),
-//                 C_portfolio_total_profit: (C_myPortfolio_total_profit).toFixed(2),
-
-//                 total_invested_value: (myPortfolio_total_invested).toFixed(2),
-//                 total_current_value: (myPortfolio_total_Current).toFixed(2),
-//                 portfolio_total_profit: (myPortfolio_total_profit).toFixed(2),
-
-//             })
-
-
-//         }
-
-//         const updating12 = await cryptoPortfolio.findOne({ username: "Aniket21" });
-//         if (1 == 1) {
-//             if (updating12.emailOnOff == "ON") {
-//                 var transporter = nodemailer.createTransport({
-//                     service: 'gmail',
-//                     auth: {
-//                         user: 'dummycrypto2@gmail.com',
-//                         pass: 'emegjafppuucwhhj'
-//                     }
-//                 });
-//                 var mailOptions = {
-//                     from: 'dummycrypto2@gmail.com',
-//                     // to: updating12.email,
-//                     to: 'anujsherma21@gmail.com',
-//                     subject: `Updated all`,
-//                     text: `Updated all at ${new Date} `,
-
-//                 };
-
-//                 const as = await transporter.sendMail(mailOptions, function (error, info) {
-//                     if (error) {
-//                         console.log(error.message);
-
-//                     } else {
-//                         console.log('VIP update Email sent: ' + info.response);
-//                     }
-//                 });
-//             }
-//         }
-
-//         // console.log("updated All Data")
-//     }
-//     catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// async function dailyUpdateMail() {
-//     try {
-//         let reset = new Date();
-//         reset.setHours(24, 0, 0, 0);
-//         let t = reset.getTime() - Date.now();
-//         // console.log(t);
-
-//         setTimeout(async function () {
-
-//             var all = await cryptoPortfolio.find();
-
-//             var transporter = nodemailer.createTransport({
-//                 service: 'gmail',
-//                 auth: {
-//                     user: 'dummycrypto2@gmail.com',
-//                     pass: 'emegjafppuucwhhj'
-//                 }
-//             });
-
-//             for (let i = 0; i < all.length; i++) {
-//                 var transporter = nodemailer.createTransport({
-//                     service: 'gmail',
-//                     auth: {
-//                         user: 'dummycrypto2@gmail.com',
-//                         pass: 'emegjafppuucwhhj'
-//                     }
-//                 });
-
-//                 let userData = all[i];
-
-//                 let str = ` 
-//                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-//                 <h3 style="color:black;"> Dear <span style = "color: blue;">  ${userData.fname} ${userData.lname} </span>, Here is your portfolio </h3>
-//                 <table class="table" style="border: 2px solid #4da4de;">
-//                 <thead style="border: 1px solid #4da4de;">
-//                   <tr>
-//                     <th style="border: 1px solid #4da4de;" scope="col">Coin Name</th>
-//                     <th style="border: 1px solid #4da4de;" scope="col">Invested Value</th>
-//                     <th style="border: 1px solid #4da4de;" scope="col">Current Value</th>
-//                     <th style="border: 1px solid #4da4de;" scope="col">Profit</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>`;
-
-//                 let ptp = 0;
-//                 for (let i = 0; i < userData.Holding.length; i++) {
-//                     ptp += userData.Holding[i].coin_profit;
-//                     if (userData.Holding[i].coin_profit < 0) {
-//                         str += `
-//                     <tr style="color: red;">
-//                     <th style="border: 1px solid #4da4de;"> ${userData.Holding[i].coin_name}</th>
-//                     <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_invested_amount}</th>
-//                     <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_current}</th>
-//                     <th style="border: 1px solid #4da4de;">${userData.Holding[i].coin_profit} Rs</th>
-//                   </tr>
-//                   `
-//                     }
-//                     else {
-//                         str += `
-//                     <tr style="color: green;">
-//                     <th style="border: 1px solid #4da4de;"> ${userData.Holding[i].coin_name}</th>
-//                     <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_invested_amount}</th>
-//                     <th style="border: 1px solid #4da4de;">₹ ${userData.Holding[i].coin_current}</th>
-//                     <th style="border: 1px solid #4da4de;">${userData.Holding[i].coin_profit} Rs</th>
-//                   </tr>
-//                   `
-//                     }
-//                 }
-
-//                 if (ptp < 0) {
-//                     str += `
-//                 <tr style="color: red;">
-//                 <th style="border: 1px solid #4da4de;">Final</th>
-//                 <th style="border: 1px solid #4da4de;">₹ ${userData.total_current_value}</th>
-//                 <th style="border: 1px solid #4da4de;">₹ ${userData.total_invested_value}</th>
-//                 <th style="border: 1px solid #4da4de;">₹${ptp.toFixed(2)} Rs</th>
-
-//               </tr>
-//               `
-//                 }
-//                 else {
-//                     str += `
-//                 <tr style="color: green;">
-//                 <th style="border: 1px solid #4da4de;">Total</th>
-//                 <th style="border: 1px solid #4da4de;">₹ ${userData.total_current_value}</th>
-//                 <th style="border: 1px solid #4da4de;">₹ ${userData.total_invested_value}</th>
-//                 <th style="border: 1px solid #4da4de;"> ${ptp.toFixed(2)} Rs</th>
-//               </tr>
-//               `
-//                 }
+              </tr>
+              `
+                }
+                else {
+                    str += `
+                <tr style="color: green;">
+                <th style="border: 1px solid #4da4de;">Total</th>
+                <th style="border: 1px solid #4da4de;">₹ ${userData.total_current_value}</th>
+                <th style="border: 1px solid #4da4de;">₹ ${userData.total_invested_value}</th>
+                <th style="border: 1px solid #4da4de;"> ${ptp.toFixed(2)} Rs</th>
+              </tr>
+              `
+                }
 
 
-//                 str += `You may turn off the notifications from the website.`
+                str += `You may turn off the notifications from the website.`
 
-//                 if (userData.emailOnOff == "ON") {
+                if (userData.emailOnOff == "ON") {
 
-//                     var mailOptions = {
-//                         from: 'dummycrypto2@gmail.com',
-//                         to: userData.email,
-//                         // to: 'anujsherma21@gmail.com',
-//                         subject: `Dummy Crypto Portfolio Update`,
-//                         text: `Dear ${userData.fname} ${userData.lname} , Here is your portfolio `,
-//                         html: str
-//                     };
+                    var mailOptions = {
+                        from: 'dummycrypto2@gmail.com',
+                        to: userData.email,
+                        // to: 'anujsherma21@gmail.com',
+                        subject: `Dummy Crypto Portfolio Update`,
+                        text: `Dear ${userData.fname} ${userData.lname} , Here is your portfolio `,
+                        html: str
+                    };
 
-//                     const as = await transporter.sendMail(mailOptions, function (error, info) {
-//                         if (error) {
-//                             console.log('Daily Email Not sent: ');
-//                             console.log(error.message);
+                    const as = await transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) {
+                            console.log('Daily Email Not sent: ');
+                            console.log(error.message);
 
-//                         } else {
-//                             console.log('Daily Email sent: ' + info.response);
-//                         }
-//                     });
-//                 }
-//             }
-//             dailyUpdateMail();
-//         }, t);
-//     }
-//     catch {
+                        } else {
+                            console.log('Daily Email sent: ' + info.response);
+                        }
+                    });
+                }
+            }
+            dailyUpdateMail();
+        }, t);
+    }
+    catch {
+        
+    }
+}
+dailyUpdateMail();
 
-//     }
-// }
 
-// dailyUpdateMail();
-// setInterval(updating, 300000);  // 5 min
 
 const port = process.env.PORT || '8880';
 app.listen(port, ["192.168.56.1", "localhost"], () => {

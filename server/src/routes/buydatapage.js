@@ -12,8 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 const verifyToken = require('./auth');
 
 console.log(typeof (verifyToken));
+
 router.route('/')
-    .post(verifyToken, async (req, res) => {
+    .post(verifyToken, async(req, res) => {
         try {
             if (req.token == "expired" || req.username == undefined) {
                 res.send({

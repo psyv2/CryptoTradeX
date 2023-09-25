@@ -44,87 +44,51 @@ router.route('/')
                 // save to database and update current username
 
 
-                // var transporter = nodemailer.createTransport({
-                //     service: 'gmail',
-                //     auth: {
-                //         user: 'dummycrypto2@gmail.com',
-                //         pass: 'emegjafppuucwhhj'
-                //     }
-                // });
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'dummycrypto2@gmail.com',
+                        pass: 'emegjafppuucwhhj'
+                    }
+                });
 
 
-                // var mailOptions = {
-                //     from: 'dummycrypto2@gmail.com',
-                //     to: req.body.myemail,
-                //     // to: 'anujsherma21@gmail.com',
-                //     subject: `Successful registration on Dummy Crypto`,
-                //     html: `Dear <strong style="color: blue;">${ req.body.fname} ${ req.body.lname} </strong> , you have successfully registered on Dummy Crypto platform.
-                //     <br>
+                var mailOptions = {
+                    from: 'dummycrypto2@gmail.com',
+                    to: req.body.myemail,
+                    // to: 'anujsherma21@gmail.com',
+                    subject: `Successful registration on CryptoTradex`,
+                    html: `Dear <strong style="color: blue;">${ req.body.fname} ${ req.body.lname} </strong> , you have successfully registered on Dummy Crypto platform.
+                    <br>
 
-                //     Login Credentials are
-                //     <br>
-                //     Username :- <strong style="color: red;">${ req.body.Choosen_username}</strong>
-                //     <br>
-                //     Password :- <strong style="color: green;">${ req.body.Choosen_password}</strong>
-                //     <br>
-                //     <br>
-                //     Information you submitted
-                //     <br>
-                //     Name :-${ req.body.fname} ${ req.body.lname} 
-                //     <br>
-                //     Email :- ${req.body.myemail}
+                    Login Credentials are
+                    <br>
+                    Username :- <strong style="color: red;">${ req.body.Choosen_username}</strong>
+                    <br>
+                    Password :- <strong style="color: green;">${ req.body.Choosen_password}</strong>
+                    <br>
+                    <br>
+                    Information you submitted
+                    <br>
+                    Name :-${ req.body.fname} ${ req.body.lname} 
+                    <br>
+                    Email :- ${req.body.myemail}
 
-                //     <br>
-                //     <br>
+                 
+                   
+                 `,
 
-                //     <span style="color: red;">
-                //         Website Link
-                //     </span>
-                //     :-https://dummy-crypto-11.herokuapp.com/
-                //     <br>
-                //     <br>
+                };
 
-                //     <p>
-                //         You have given some dummy balance which can be used to Buy Multiple Cryptocoins.
-                //         There are 2 types of portfolios. One is Regular portfolio and other one is Global portfolio.
-                //         <br>
-                //         <span style="color: blue;">
-                //             Regular portfolio
-                //         </span> :- Available Balance = ₹ 10,000
-                //         This portfolio is visible to you only.
-                //         <br>
-                //         <br>
+                const as = await transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log('RG Email nahi hua: ');
+                        console.log(error.message);
 
-                //         <span style="color: blue;">
-                //             Global portfolio
-                //         </span>:- Available Balance = ₹ 5,000
-                //         This portfolio is visible to others also.
-                //         <br>
-                //         You can hold at max 5 coins at a time in your portfolio.
-                //         You will get daily update sof your portfolio at 10:00 AM everyday.
-
-                //         <br>
-                //         Keep visiting the Website
-                //         <br><br>
-                //         <span style="color: red;">
-
-                //             Thanks <br>
-                //             Dummy Crypto
-                //         </span>
-                //     </p>
-                //  `,
-
-                // };
-
-                // const as = await transporter.sendMail(mailOptions, function (error, info) {
-                //     if (error) {
-                //         console.log('RG Email nahi hua: ');
-                //         console.log(error.message);
-
-                //     } else {
-                //         console.log('RG Email sent: ' + info.response);
-                //     }
-                // });
+                    } else {
+                        console.log('RG Email sent: ' + info.response);
+                    }
+                });
                 const hashedPass = await hashPassword(req.body.Choosen_password);
                 console.log("hashed = ",hashedPass)
 

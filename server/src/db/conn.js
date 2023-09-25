@@ -4,6 +4,7 @@
 //     .catch((err) => {
 //         console.log("error in database connection");
 //     })
+
 require('dotenv').config()
 let DATABASE_URL = process.env.DATABASE_URL
 
