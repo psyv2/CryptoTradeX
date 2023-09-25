@@ -31,6 +31,35 @@ export const HomePageData = async () => {
     }
 }
 
+
+export const ToggleEmail = async () => {
+    try {
+        let mytoken = localStorage.getItem("mytoken")
+        if (mytoken == undefined) mytoken = "no";
+        let data;
+        const p = await fetch(`${url}/emailOnOff`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${mytoken}`
+            },
+        })
+            .then((resp) => resp.json())
+            .then((result) => {
+                console.log("*************Email Toggled - ", result)
+                data = result
+            })
+            .catch((e) => console.log("error in toggle "));
+        return data;
+
+    } catch (error) {
+        console.log("(Services)Unable to make request at get /buydatapage")
+        return error;
+    }
+}
+
+
 export const BuyPageData = async (obj) => {
     try {
         let mytoken = localStorage.getItem("mytoken")

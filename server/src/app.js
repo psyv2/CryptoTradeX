@@ -111,8 +111,8 @@ app.get("/", verifyToken, async (req, res) => {
                     total_profit: 0.00,
                     current_name: "--"
                 },
-                emailStatus: "OFF",
                 main_data: {
+                    emailStatus: "OFF",
                     Holdings: [],
                     myPortfolio_total_invested: 0,
                     myPortfolio_total_Current: 0,
@@ -189,9 +189,9 @@ app.get("/", verifyToken, async (req, res) => {
                     Holdings: userData.Holding,
                     myPortfolio_total_invested: myPortfolio_total_invested.toFixed(2),
                     myPortfolio_total_Current: myPortfolio_total_Current.toFixed(2),
-                    myPortfolio_total_profit: myPortfolio_total_profit.toFixed(2)
+                    myPortfolio_total_profit: myPortfolio_total_profit.toFixed(2),
+                    emailStatus: userData.emailOnOff,
                 },
-                emailStatus: userData.emailOnOff,
                 contest_data: {
                     contestHoldings: userData.contestHolding,
                     C_myPortfolio_total_invested: C_myPortfolio_total_invested.toFixed(2),
@@ -325,22 +325,29 @@ app.post("/buydatapage", verifyToken, async (req, res) => {
 
 
 
-app.post("/emailOnOff", async (req, res) => {
+app.post("/emailOnOff", verifyToken,async (req, res) => {
     try {
-        const userData = await cryptoPortfolio.findOne({ username: req.session.cuser });
+        console.log("Reqqqq ",req.username )
+        const userData = await cryptoPortfolio.findOne({ username: req.username });
         if (userData.emailOnOff == "ON") {
-            const updating12 = await cryptoPortfolio.findOneAndUpdate({ username: req.session.cuser }, {
+            const updating12 = await cryptoPortfolio.findOneAndUpdate({ username: req.username  }, {
                 emailOnOff: "OFF"
             });
+            res.send({
+                status: "OFF"
+            })
 
         }
         else if (userData.emailOnOff == "OFF") {
-            const updating12 = await cryptoPortfolio.findOneAndUpdate({ username: req.session.cuser }, {
+            const updating12 = await cryptoPortfolio.findOneAndUpdate({ username: req.username  }, {
                 emailOnOff: "ON"
             });
+            res.send({
+                status: "ON"
+            })
 
         }
-        res.redirect("/");
+
     }
     catch (err) {
         res.send("error in email notification status " + err);

@@ -7,6 +7,7 @@
 
 require('dotenv').config()
 let DATABASE_URL = process.env.DATABASE_URL
+console.log(DATABASE_URL)
 
 const mongoose = require('mongoose');
 const url = DATABASE_URL

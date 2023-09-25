@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSharedState } from '../../context/ContextProvider';
 import { Toast } from 'react-bootstrap';
-import { Selling_coin } from '../../Services/API';
+import { Selling_coin , ToggleEmail } from '../../Services/API';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const MP = (props) => {
@@ -11,8 +12,18 @@ const MP = (props) => {
 
   console.log('Rendering Component1');
   const [sellData, setSellData] = useState();
+  const [emailStatus, setEmail] = useState();
+  const navigate = useNavigate();
 
-  const sellCoin = async (coin_symbol, coin_current) => {
+  const toogle_email = async () => {
+
+    const ReqData = await ToggleEmail();
+    if(ReqData){
+      setEmail(ReqData.status);
+    }
+
+  }
+    const sellCoin = async (coin_symbol, coin_current) => {
     let data = {
       coin_symbol: coin_symbol,
       coin_current: coin_current
@@ -35,11 +46,12 @@ const MP = (props) => {
     else {
       console.log("Unable to get HomePageData => ", ReqData)
     }
-
   }
+
   useEffect(() => {
     if (Holdings == undefined) {
       updateHoldings(props.data.Holdings)
+      setEmail(props.data.emailStatus)
       console.log("set")
     }
   }, [Holdings, available_balance, total_profit, sellCoin]);
@@ -88,10 +100,11 @@ const MP = (props) => {
               </div>
               <div className="col-4">
                 {/* <form action="/emailOnOff" method="post"> */}
-                <button className='btn-notification'
-                  onSubmit={() => { sendMail() }}>
+                <button className="btn btn-success btn-lg btn-block"
+                  onClick={() => { toogle_email() }}
+                  >
                   {/* {data.emailStatus} */}
-                  on
+                  {emailStatus}
                 </button>
                 {/* </form> */}
               </div>
